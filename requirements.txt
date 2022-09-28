@@ -1,2 +1,6 @@
 django
 python-decouple
+cx_oracle
+django-sql-explorer[xls]
+pillow
+django-crispy-forms

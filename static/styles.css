@@ -1,0 +1,17 @@
+#caca
+{
+color: blue; 
+}
+.centerDiv
+{
+max-width: 95%;
+width: 500px;
+position: absolute;
+left: 50%;
+top: 50%;
+transform: translate(-50%, -50%);
+}
+#index
+{
+    margin-top: 100px;
+}

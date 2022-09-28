@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}
+Index
+{% endblock %}
+{% block content %}
+<div id="index" class="container">
+{% for Building in Buildings %}
+<p>{{ Building.name }}</p>
+<img src="{{ Building.image.url }}" alt="My image">
+{% endfor %}
+</div>
+{% endblock %}

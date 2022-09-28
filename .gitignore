@@ -1,5 +1,8 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
+estatemanager/__pycache__/
+manager/__pycache__/
+manager/migrations/
 *.py[cod]
 *$py.class
 
@@ -12,6 +15,8 @@ build/
 develop-eggs/
 dist/
 downloads/
+estatemanagerenv/
+media/
 eggs/
 .eggs/
 lib/
