@@ -1,4 +1,4 @@
-from django import forms
+from django.contrib.gis import forms
 from .models import *
 
 class SiteForm(forms.ModelForm):
@@ -11,8 +11,10 @@ class BuildingForm(forms.ModelForm):
   
     class Meta:
         model = Building
-        fields = ['name', 'street', 'administrators', 'author', 'site', 'image']
-
+        widgets = {
+            'geometrie': forms.OSMWidget(attrs={'default_lon' : 7.75290774889795, 'default_lat': 48.5734425944796})
+        }
+        fields = ['name', 'street', 'administrators', 'author', 'site', 'image', 'geometrie']
 class SpaceForm(forms.ModelForm):
   
     class Meta:

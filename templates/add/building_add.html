@@ -1,5 +1,8 @@
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
+{% block head %}
+{{ form.media }}
+{% endblock %}
 {% block title %}
 Adding
 {% endblock %}
@@ -12,4 +15,5 @@ Adding
     </form>
 
 </div>
+
 {% endblock %}

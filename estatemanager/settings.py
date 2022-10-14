@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.gis',
     'manager',
     'explorer',
     'crispy_forms',
@@ -80,7 +81,7 @@ WSGI_APPLICATION = 'estatemanager.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.oracle',
+        'ENGINE': 'django.contrib.gis.db.backends.oracle',
         'NAME': config('DB_HOST'),
         'USER': config('DB_USER'),
         'PASSWORD': config('DB_PSWD'),

@@ -4,7 +4,9 @@ from .forms import *
 
 def index(request):
     context = {
-        "Buildings" : Building.objects.all().order_by('-date_modified')
+        "Sites" : Site.objects.all().order_by('-date_modified'),
+        "Buildings" : Building.objects.all().order_by('-date_modified'),
+        "Spaces" : Space.objects.all().order_by('-date_modified')
     }
     return render(request, "index.html", context)
 

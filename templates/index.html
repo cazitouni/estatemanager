@@ -3,10 +3,19 @@
 Index
 {% endblock %}
 {% block content %}
-<div id="index" class="container">
+<div class="d-flex flex-row flex-wrap justify-content-center">
 {% for Building in Buildings %}
-<p>{{ Building.name }}</p>
-<img src="{{ Building.image.url }}" alt="My image">
+<div class="card" style="width: 344px;margin: 10px;">
+  {% if Building.image.url != None %}
+    <img src="{{ Building.image.url }}" class="card-img-top" alt="..." style="height:170px">
+  {% else %}
+    <img src="" class="card-img-top" alt="...">
+  {% endif %}
+    <div class="card-body">
+      <h5 class="card-title">{{ Building.name }}</h5>
+      <a href="#" class="btn btn-primary">See Sheet</a>
+    </div>
+  </div>
 {% endfor %}
 </div>
 {% endblock %}
