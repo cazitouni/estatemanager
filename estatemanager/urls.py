@@ -29,6 +29,7 @@ urlpatterns = [
     path('add/building', views.addBuilding, name = 'addBuilding'),
     path('add/space', views.addSpace, name = 'addSpace'),
     path('success', views.success, name = 'success'),
+    path("<int:buildingId>", views.sheetBuilding, name="sheetBuilding"),
 ]
 
 if settings.DEBUG:

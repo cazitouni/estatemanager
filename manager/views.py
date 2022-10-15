@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from .forms import *
 
 def index(request):
@@ -9,6 +9,27 @@ def index(request):
         "Spaces" : Space.objects.all().order_by('-date_modified')
     }
     return render(request, "index.html", context)
+
+def sheetBuilding(request, buildingId):
+
+    if request.method == "GET":
+
+        try:
+            Buildinginstance= Building.objects.get(id=buildingId)
+            
+        except Building.DoesNotExist:
+            raise Http404("This post does not exist")
+
+        if Buildinginstance.geometrie != None : 
+            Buildinginstance.geometrie.transform(4326)
+        
+        context ={
+            "Building" : Building.objects.get(id=buildingId),
+            "geometrie" : Buildinginstance.geometrie,
+        }
+        
+        return render(request, "sheet/building_sheet.html", context)
+
 
 def addSite(request):
     if request.method == 'POST':

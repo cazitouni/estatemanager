@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block head %}
+{{ form.media }}
+{% endblock %}
+{% block title %}
+Building
+{% endblock %}
+{% block content %}
+<div class="h-100 d-flex flex-row justify-content-between align-items-start" style="margin: 10px;">
+    <div class="flex-fill">
+
+        <h1>Name : {{Building.name}}</h1>
+        <div style="margin: 50px;">
+            <h2>Street : {{Building.street}}</h2>
+            <h2>Administrator : {{Building.administrator}}</h2> 
+            <h2>Date created : {{Building.date_created}}</h2>
+            <h2>Date modified : {{Building.date_modified}}</h2>
+            <h2>Author : {{Building.author}}</h2>
+            <h2>Site : {{Building.site}}</h2>
+        </div>
+
+    </div>
+    <div style="width: 30%;">
+        <h3>Localisation : </h3>
+        <div id="map" class="align-self-start" style="margin-bottom: 10px;"></div>
+        <h3>Image : </h3>
+        {% if Building.image.url != None %}
+        <img src="{{ Building.image.url }}" class="card-img-top" alt="..." style="height:300px;object-fit:scale-down;margin-top: 10px;">
+      {% else %}
+        <img src="" class="card-img-top" alt="...">
+      {% endif %}
+    </div>
+</div>
+<script>
+    var map = L.map('map').setView("{{geometrie.centroid.coords}}".replace(/\(|\)/g, '').split(',').reverse(), 16);
+    L.tileLayer('https://wgs-users.s3.amazonaws.com/cus/fonds/ems_gris/{z}/{x}/{y}.png', {
+    maxZoom: 21,
+    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(map);
+    L.geoJSON(JSON.parse("{{ geometrie.geojson | escapejs}}")).addTo(map);
+</script>
+{% endblock %}
+

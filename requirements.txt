@@ -4,3 +4,4 @@ cx_oracle
 django-sql-explorer[xls]
 pillow
 django-crispy-forms
+django-cleanup

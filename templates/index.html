@@ -5,15 +5,15 @@ Index
 {% block content %}
 <div class="d-flex flex-row flex-wrap justify-content-center">
 {% for Building in Buildings %}
-<div class="card" style="width: 344px;margin: 10px;">
+<div class="card" style="width:344px;margin:10px;height:400px;">
   {% if Building.image.url != None %}
-    <img src="{{ Building.image.url }}" class="card-img-top" alt="..." style="height:170px">
+    <img src="{{ Building.image.url }}" class="card-img-top" alt="..." style="height:200px;object-fit:cover;">
   {% else %}
     <img src="" class="card-img-top" alt="...">
   {% endif %}
     <div class="card-body">
       <h5 class="card-title">{{ Building.name }}</h5>
-      <a href="#" class="btn btn-primary">See Sheet</a>
+      <a href="{% url 'sheetBuilding' Building.id %}" class="btn btn-primary" style="position: absolute;bottom:5px;right: 5px;">View</a>
     </div>
   </div>
 {% endfor %}

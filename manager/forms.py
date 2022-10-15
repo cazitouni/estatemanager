@@ -15,8 +15,8 @@ class BuildingForm(forms.ModelForm):
             'geometrie': forms.OSMWidget(attrs={'default_lon' : 7.75290774889795, 'default_lat': 48.5734425944796})
         }
         fields = ['name', 'street', 'administrators', 'author', 'site', 'image', 'geometrie']
+
 class SpaceForm(forms.ModelForm):
-  
     class Meta:
         model = Space
         fields = ['name', 'building', 'author']
