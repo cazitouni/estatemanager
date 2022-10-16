@@ -5,3 +5,4 @@ django-sql-explorer[xls]
 pillow
 django-crispy-forms
 django-cleanup
+reportlab

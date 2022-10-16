@@ -1,6 +1,8 @@
+import io
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse, Http404
+from django.http import HttpResponse, Http404, FileResponse
+from reportlab.pdfgen import canvas
 from .forms import *
 
 def index(request):
@@ -10,6 +12,17 @@ def index(request):
         "Spaces" : Space.objects.all().order_by('-date_modified')
     }
     return render(request, "index.html", context)
+
+def report(request, buildingId):
+
+    buffer = io.BytesIO()
+    p = canvas.Canvas(buffer)
+    p.drawString(100, 100, "Hello world.")
+    p.showPage()
+    p.save()
+    buffer.seek(0)
+    return FileResponse(buffer, as_attachment=True, filename='hello.pdf')
+
 
 def sheetBuilding(request, buildingId):
 

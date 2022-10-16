@@ -31,6 +31,7 @@ urlpatterns = [
     path('success', views.success, name = 'success'),
     path("<int:buildingId>", views.sheetBuilding, name="sheetBuilding"),
     path("edit/<int:buildingId>", views.editBuilding, name="editBuilding"),
+    path('report/<int:buildingId>', views.report, name = 'report'),
 ]
 
 if settings.DEBUG:
