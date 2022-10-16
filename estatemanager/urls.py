@@ -30,6 +30,7 @@ urlpatterns = [
     path('add/space', views.addSpace, name = 'addSpace'),
     path('success', views.success, name = 'success'),
     path("<int:buildingId>", views.sheetBuilding, name="sheetBuilding"),
+    path("edit/<int:buildingId>", views.editBuilding, name="editBuilding"),
 ]
 
 if settings.DEBUG:

@@ -3,7 +3,7 @@
 Index
 {% endblock %}
 {% block content %}
-<div class="d-flex flex-row flex-wrap justify-content-center">
+<div class="d-flex flex-row flex-wrap justify-content-center" id="cardElements">
 {% for Building in Buildings %}
 <div class="card" style="width:344px;margin:10px;height:400px;">
   {% if Building.image.url != None %}

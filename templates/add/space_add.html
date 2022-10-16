@@ -4,7 +4,8 @@
 Adding
 {% endblock %}
 {% block content %}
-<div class="centerDiv">
+<div class="d-flex flex-row flex-wrap justify-content-center" style="margin-top: 20px;margin-bottom:20px;">
+
     <form method = "post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form | crispy}}
