@@ -2,6 +2,7 @@
 {% load crispy_forms_tags %}
 {% block title %}
 {{Building.name}}
+{% load static %}
 {% endblock %}
 {% block content %}
 <div class="h-100 d-flex flex-row justify-content-between align-items-start" style="margin: 10px;">
@@ -47,7 +48,7 @@
         {% if Building.image.url != None %}
         <img src="{{ Building.image.url }}" class="card-img-top" alt="..." style="height:300px;object-fit:scale-down;margin-top: 10px;">
       {% else %}
-        <img src="" class="card-img-top" alt="...">
+        <img src="{% static 'images/index_template.png' %}" class="card-img-top" alt="..." style="height:300px;object-fit:scale-down;margin-top: 10px;">
       {% endif %}
     </div>
     <div id="media-card"> 

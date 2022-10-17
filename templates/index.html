@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block title %}
+{% load static %}
 Index
 {% endblock %}
 {% block content %}
@@ -9,7 +10,7 @@ Index
   {% if Building.image.url != None %}
     <img src="{{ Building.image.url }}" class="card-img-top" alt="..." style="height:200px;object-fit:cover;">
   {% else %}
-    <img src="" class="card-img-top" alt="...">
+    <img src="{% static 'images/index_template.png' %}" class="card-img-top" style="height:200px;object-fit:cover;" alt="...">
   {% endif %}
     <div class="card-body">
       <h5 class="card-title">{{ Building.name }}</h5>
