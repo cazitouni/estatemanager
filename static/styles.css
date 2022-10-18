@@ -1,7 +1,3 @@
-#caca
-{
-color: blue; 
-}
 .centerDiv
 {
 max-width: 95%;
@@ -13,6 +9,10 @@ transform: translate(-50%, -50%);
 overflow: hidden;
 }
 
+#cardElements
+{
+    margin-top: 10px;
+}
 #map 
 { 
 height: 300px; 
