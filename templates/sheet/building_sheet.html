@@ -41,9 +41,9 @@
             </div>
     </div>
     <div style="width:30%;word-wrap: break-word ">
-      <div id="media-card"> 
+      <div  class="card card-body" style="margin:10px;"> 
         <h3>Localisation : </h3>
-        <div id="map" class="align-self-start" style="margin-bottom: 10px;"></div>
+        <div id="map" style="margin-bottom: 20px;"></div>
         <h3>Image : </h3>
         {% if Building.image.url != None %}
         <img src="{{ Building.image.url }}" class="card-img-top" alt="..." style="height:300px;object-fit:scale-down;margin-top: 10px;">
@@ -51,8 +51,8 @@
         <img src="{% static 'images/index_template.png' %}" class="card-img-top" alt="..." style="height:300px;object-fit:scale-down;margin-top: 10px;">
       {% endif %}
     </div>
-    <div id="media-card"> 
-      <h3>Ralated Spaces : </h3>
+    <div  class="card card-body" style="margin:10px;"> 
+      <h3>Related Spaces : </h3>
       {% for Space in Spaces %}
       <p>{{Space.name}}</p> 
       {% endfor %}</div>

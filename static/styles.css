@@ -38,9 +38,5 @@ background: white;
 #media-card
 {
     margin: 10px;
-    border: 1px;
-    border-style: solid;
     padding: 10px;
-    border-color: rgba(170, 165, 165, 0.55);
-    border-radius: 5px;
 }
