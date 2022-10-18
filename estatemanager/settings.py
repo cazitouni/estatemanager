@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'manager',
     'explorer',
     'crispy_forms',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [

@@ -6,3 +6,4 @@ pillow
 django-crispy-forms
 django-cleanup
 reportlab
+pydotplus
