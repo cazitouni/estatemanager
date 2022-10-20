@@ -2,16 +2,41 @@ import io
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, Http404, FileResponse
+from django_user_agents.utils import get_user_agent
+from django.core.paginator import Paginator
 from reportlab.pdfgen import canvas
 from .forms import *
 
 def index(request):
-    context = {
-        "Sites" : Site.objects.all().order_by('-date_modified'),
-        "Buildings" : Building.objects.all().order_by('-date_modified'),
-        "Spaces" : Space.objects.all().order_by('-date_modified')
-    }
-    return render(request, "index.html", context)
+    name = None
+
+    if request.method == "POST":
+        name = str(request.POST.get('name'))
+        buildings = Building.objects.filter(name__contains = name) #queryset containing all movies we just created
+    else : 
+        buildings = Building.objects.all() #queryset containing all movies we just created
+    user_agent = get_user_agent(request)
+    paginator = Paginator(buildings, 5)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+
+    
+    if user_agent.is_mobile:
+        context = {
+            "Sites" : Site.objects.all().order_by('-date_modified'),
+            "Buildings" : Building.objects.all(),
+            "Spaces" : Space.objects.all().order_by('-date_modified')
+        }
+        return render(request, "index_mobile.html", context)
+    else:
+        context = {
+            "Sites" : Site.objects.all().order_by('-date_modified'),
+            "Buildings" : page_obj,
+            "Spaces" : Space.objects.all().order_by('-date_modified'),
+            "name": name
+        }
+        return render(request, "index.html", context)
 
 def report(request, buildingId):
 

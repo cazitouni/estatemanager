@@ -7,3 +7,4 @@ django-crispy-forms
 django-cleanup
 reportlab
 pydotplus
+django-user-agents

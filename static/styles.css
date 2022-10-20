@@ -8,11 +8,6 @@ top: 50%;
 transform: translate(-50%, -50%);
 overflow: hidden;
 }
-
-#cardElements
-{
-    margin-top: 10px;
-}
 #map 
 { 
 height: 300px; 
@@ -39,4 +34,18 @@ background: white;
 {
     margin: 10px;
     padding: 10px;
+}
+
+
+.scrollDiv::-webkit-scrollbar
+{
+display: none;
+}
+
+.scrollDiv 
+{
+width: 100%;
+overflow: scroll; 
+-ms-overflow-style: none;  /* IE and Edge */
+scrollbar-width: none;  /* Firefox */
 }

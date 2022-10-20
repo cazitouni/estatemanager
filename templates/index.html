@@ -1,22 +1,103 @@
 {% extends "base.html" %}
 {% block title %}
 {% load static %}
+{% load crispy_forms_tags %}
 Index
 {% endblock %}
 {% block content %}
-<div class="d-flex flex-row flex-wrap justify-content-center" id="cardElements">
-{% for Building in Buildings %}
-<div class="card" style="width:344px;margin:10px;height:400px;">
-  {% if Building.image.url != None %}
-    <img src="{{ Building.image.url }}" class="card-img-top" alt="..." style="height:200px;object-fit:cover;">
-  {% else %}
-    <img src="{% static 'images/index_template.png' %}" class="card-img-top" style="height:200px;object-fit:cover;" alt="...">
-  {% endif %}
-    <div class="card-body">
-      <h5 class="card-title">{{ Building.name }}</h5>
-      <a href="{% url 'sheetBuilding' Building.id %}" class="btn btn-primary" style="position: absolute;bottom:10px;right:10px;">View</a>
+<style>
+  body
+  {
+    overflow: hidden;
+  }
+</style>
+
+<div class="d-flex flex-row justify-content-fill">
+
+  <div style="width: 20%; background-color: rgba(0,0,255,.1);height:calc(100vh - 81.6px);margin-top: 5px;">
+    <div class="d-flex flex-row flex-fill scrollDiv justify-content-center" style="background-color: rgba(187, 31, 96, 0.1);height: 90%;">
+      <form style="width: 80%;margin-top: 10px;" method = "post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input id="name" name="name" type="text" id="textInput" class="form-control mb-4" placeholder="Name">
+
+    </div>
+
+    <div class="d-flex flex-row justify-content-center align-items-center" style="background-color: rgba(31, 60, 187, 0.1);height: 10%;">
+      <button  class="btn btn-primary"style="width:80%;">Search</button>
+    </div>
+  </form>
+  </div>
+
+  <div class="flex-fill" style="background-color: rgba(78, 117, 27, 0.1);height:calc(100vh - 81.6px);margin-top: 5px;">
+    <div id="pgDiv" class="d-flex flex-column flex-fill" style="background-color: rgba(187, 31, 96, 0.1);height: 90%;">
+      {% for Building in Buildings %}
+        <div id="keywords" class="d-flex flex-row" style="background-color: rgba(0, 255, 213, 0.1);height: 20%;">
+          <div class="flex-row d-flex card card-body" style="height: 95%;width: 100%;padding:1%;">
+            <img src="{% static 'images/index_template.png' %}" class="card-img-top" style="height:100%;object-fit:cover;width: 20%;" alt="...">
+           <div class="d-flex flex-column flex-fill"style="margin-left:2%;">
+            <h1>{{Building.name}}</h1>
+            </div>
+            <div class="d-flex flex-column justify-content-end"style="margin-left:2%;">
+            <a href="{% url 'sheetBuilding' Building.id %}" class="btn btn-primary">Go <i class="bi bi-chevron-double-right"></i></a>
+          </div>
+        </div>
+        </div>
+      {% endfor %}
+    </div>
+    
+    <div class="d-flex flex-row justify-content-center align-items-center" style="background-color: rgba(31, 60, 187, 0.1);height: 10%;">
+      <nav id="navElem"style="margin:0px;">
+        <ul class="pagination justify-content-center" style="margin:0px !important">
+          {% if Buildings.has_previous %}
+            <li class="page-item">
+              <a class="page-link" onclick="getQuery('{{ Buildings.previous_page_number }}')">Previous</a>
+            </li>
+          {% else %}
+            <li class="page-item disabled">
+              <a class="page-link" href="#" tabindex="-1" aria-disabled="True">Previous</a>
+            </li>
+          {% endif %}
+          {% for i in Buildings.paginator.page_range %}
+            {% if Buildings.number == i %}
+              <li class="page-item active" aria-current="page">
+                <span class="page-link">
+                  {{ i }}
+                  <span class="sr-only">(current)</span>
+                </span>
+              </li>
+            {% else %}
+              <li class="page-item"><a class="page-link" onclick="getQuery('{{ i }}')">{{ i }}</a></li>
+            {% endif %}
+          {% endfor %}
+          {% if Buildings.has_next %}
+            <li class="page-item">
+              <a class="page-link" onclick="getQuery('{{ Buildings.next_page_number }}')" >Next</a>
+            </li>
+          {% else %}
+            <li class="page-item disabled">
+              <a class="page-link" href="#" tabindex="-1" aria-disabled="True">Next</a>
+            </li>
+          {% endif %}
+        </ul>
+      </nav>
     </div>
   </div>
-{% endfor %}
+
 </div>
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function() {
+
+  if ( "{{name}}" != "None") {
+    document.getElementById('name').value = "{{name}}"
+  }
+          
+
+
+});
+
+
+
+</script>
 {% endblock %}

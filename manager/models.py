@@ -37,7 +37,7 @@ class Building(models.Model):
         CULTES = 'Cultes', _('Cultes')
         SPORT = 'Patrimoine Sportif', _('Patrimoine Sportif')
 
-    name = models.CharField(max_length=255, unique=True)
+    name = models.CharField(max_length=255, unique=True, null = False)
     street = models.CharField(max_length=255, blank=True)
     date_build = models.DateField(blank=True, null = True)
     date_purchase = models.DateField(blank=True, null = True)
