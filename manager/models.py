@@ -37,6 +37,13 @@ class Building(models.Model):
         CULTES = 'Cultes', _('Cultes')
         SPORT = 'Patrimoine Sportif', _('Patrimoine Sportif')
 
+    class Types(models.TextChoices):
+        SCHOOL = 'School', _('School')
+        ADMINISTRATION = 'Administration', _('Administration')
+        SPORT = 'Sport', _('Sport')
+        OFFICE = 'Office', _('Office')
+        HOUSING = 'Housing', _('Housing') 
+
     name = models.CharField(max_length=255, unique=True, null = False)
     street = models.CharField(max_length=255, blank=True)
     date_build = models.DateField(blank=True, null = True)
@@ -55,6 +62,8 @@ class Building(models.Model):
     surface_floor = models.FloatField(blank=True, null = True)
     surface_under_roof = models.FloatField(blank=True, null = True)
     archived = models.BooleanField(blank=True, null = True, default=False)
+    types = models.CharField(max_length=50, choices=Types.choices, blank=True)
+
     def __str__(self):
         return self.name
 

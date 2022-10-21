@@ -9,12 +9,15 @@ from .forms import *
 
 def index(request):
     name = None
-
+    types = None
+    
     if request.method == "POST":
         name = str(request.POST.get('name'))
-        buildings = Building.objects.filter(name__contains = name) #queryset containing all movies we just created
+        types = str(request.POST.get('type'))
+        buildings = Building.objects.filter(name__icontains = name, types__icontains = types)
+
     else : 
-        buildings = Building.objects.all() #queryset containing all movies we just created
+        buildings = Building.objects.all()
     user_agent = get_user_agent(request)
     paginator = Paginator(buildings, 5)
     page_number = request.GET.get('page')
@@ -34,7 +37,8 @@ def index(request):
             "Sites" : Site.objects.all().order_by('-date_modified'),
             "Buildings" : page_obj,
             "Spaces" : Space.objects.all().order_by('-date_modified'),
-            "name": name
+            "name": name,
+            "type" : types
         }
         return render(request, "index.html", context)
 

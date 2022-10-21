@@ -14,12 +14,12 @@ Index
 
 <div class="d-flex flex-row justify-content-fill">
 
-  <div style="width: 20%; background-color: rgba(0,0,255,.1);height:calc(100vh - 81.6px);margin-top: 5px;">
-    <div class="d-flex flex-row flex-fill scrollDiv justify-content-center" style="background-color: rgba(187, 31, 96, 0.1);height: 90%;">
+  <div style="width: 20%;height:calc(100vh - 76.6px);border: 1%;border-style: solid;">
+    <div class="d-flex flex-row flex-fill scrollDiv justify-content-center" style="background-color: blue;height: 90%;">
       <form style="width: 80%;margin-top: 10px;" method = "post" enctype="multipart/form-data">
         {% csrf_token %}
         <input id="name" name="name" type="text" id="textInput" class="form-control mb-4" placeholder="Name">
-
+        <input id="type" name="type" type="text" id="textInput" class="form-control mb-4" placeholder="Type">
     </div>
 
     <div class="d-flex flex-row justify-content-center align-items-center" style="background-color: rgba(31, 60, 187, 0.1);height: 10%;">
@@ -28,14 +28,18 @@ Index
   </form>
   </div>
 
-  <div class="flex-fill" style="background-color: rgba(78, 117, 27, 0.1);height:calc(100vh - 81.6px);margin-top: 5px;">
-    <div id="pgDiv" class="d-flex flex-column flex-fill" style="background-color: rgba(187, 31, 96, 0.1);height: 90%;">
+  <div class="flex-fill" style="height:calc(100vh - 76.6px);">
+    <div id="pgDiv" class="d-flex flex-column flex-fill" style="height: 90%;margin: 0.5%;margin-bottom: 0px;">
       {% for Building in Buildings %}
-        <div id="keywords" class="d-flex flex-row" style="background-color: rgba(0, 255, 213, 0.1);height: 20%;">
+        <div id="keywords" class="d-flex flex-row" style="height: 20%;">
           <div class="flex-row d-flex card card-body" style="height: 95%;width: 100%;padding:1%;">
             <img src="{% static 'images/index_template.png' %}" class="card-img-top" style="height:100%;object-fit:cover;width: 20%;" alt="...">
-           <div class="d-flex flex-column flex-fill"style="margin-left:2%;">
-            <h1>{{Building.name}}</h1>
+           <div class="d-flex flex-column"style="margin-left:2%;width:50%">
+              <h1>{{Building.name}}</h1>
+              <p>{{Building.site}}</p>
+            </div>
+            <div class="d-flex flex-column justify-content-center flex-fill"style="margin-left:2%;">
+              <h5>{{Building.types}}</h5>
             </div>
             <div class="d-flex flex-column justify-content-end"style="margin-left:2%;">
             <a href="{% url 'sheetBuilding' Building.id %}" class="btn btn-primary">Go <i class="bi bi-chevron-double-right"></i></a>
@@ -45,7 +49,7 @@ Index
       {% endfor %}
     </div>
     
-    <div class="d-flex flex-row justify-content-center align-items-center" style="background-color: rgba(31, 60, 187, 0.1);height: 10%;">
+    <div class="d-flex flex-row justify-content-center align-items-center" style="height: 10%;">
       <nav id="navElem"style="margin:0px;">
         <ul class="pagination justify-content-center" style="margin:0px !important">
           {% if Buildings.has_previous %}
@@ -92,7 +96,9 @@ document.addEventListener("DOMContentLoaded", function() {
   if ( "{{name}}" != "None") {
     document.getElementById('name').value = "{{name}}"
   }
-          
+  if ( "{{type}}" != "None") {
+    document.getElementById('type').value = "{{type}}"
+  }
 
 
 });
