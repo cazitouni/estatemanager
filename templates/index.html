@@ -30,8 +30,8 @@ Index
   <div class="flex-fill" style="height:calc(100vh - 76.6px);">
     <div id="pgDiv" class="d-flex flex-column flex-fill" style="height: 90%;margin: 0.5%;margin-bottom: 0px;">
       {% for Building in Buildings %}
-        <div id="keywords" class="d-flex flex-row" style="height: 20%;">
-          <div class="flex-row d-flex card card-body" style="height: 95%;width: 100%;padding:1%;">
+        <div class="d-flex flex-row" style="height: 20%;">
+          <div id="indexCards" class="flex-row d-flex card card-body" style="height: 95%;width: 100%;padding:1%;">
             <img src="{% static 'images/index_template.png' %}" class="card-img-top" style="height:100%;object-fit:cover;width: 20%;" alt="...">
            <div class="d-flex flex-column"style="margin-left:2%;width:50%">
               <h1>{{Building.name}}</h1>
@@ -53,7 +53,7 @@ Index
         <ul class="pagination justify-content-center" style="margin:0px !important">
           {% if Buildings.has_previous %}
             <li class="page-item">
-              <a class="page-link" onclick="getQuery('{{ Building.previous_page_number }}')">Previous</a>
+              <a class="page-link" onclick="getQuery('{{ Buildings.previous_page_number }}')">Previous</a>
             </li>
           {% else %}
             <li class="page-item disabled">
@@ -73,9 +73,9 @@ Index
             {% endif %}
           {% endfor %}
           {% if Buildings.has_next %}
-            <li class="page-item">
-              <a id="pageNext" class="page-link" onclick="getQuery('{{ Building.next_page_number }}')" >Next</a>
-            </li>
+          <li class="page-item">
+            <a class="page-link" onclick="getQuery('{{Buildings.next_page_number}}')">Next</a>
+          </li>
           {% else %}
             <li class="page-item disabled">
               <a class="page-link" href="#" tabindex="-1" aria-disabled="True">Next</a>
@@ -98,27 +98,6 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById('id_type').value = "{{type}}"
   }
 
-
 });
-document.querySelector("#pageNext").addEventListener("click", event => {
-  let formData = new FormData();
-  formData.append('name', document.querySelector("#id_name").value);
-  formData.append('type', document.querySelector("#id_type").value);
-
-  x = document.getElementsByName("csrfmiddlewaretoken")[0].value;
-  const request = new Request('{% url "index" %}', {method: 'POST', body: formData, headers: {'X-CSRFToken': x}});
-  const parser = new DOMParser();
-  fetch(request)
-  .then(response => response.text())
-  .then(result => {
-
-      var doc = parser.parseFromString(result, "text/html");
-      console.log(innerHTML = doc.getElementById('pgDiv').innerHTML)
-
-  })
-  
-})
-
-
 </script>
 {% endblock %}

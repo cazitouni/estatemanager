@@ -11,7 +11,6 @@ from .forms import *
 def search(request): 
 
     if request.method == "POST" :
-        print(request.POST)
         jsonObject = json.dumps(request.POST)
         return JsonResponse({"jsonObject" : jsonObject})
     return None
