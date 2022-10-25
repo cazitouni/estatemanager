@@ -25,6 +25,11 @@ class BuildingForm(forms.ModelForm):
         }
         fields = '__all__'
 
+class SearchBuildingForm(forms.Form):
+    
+    name = forms.CharField(label='Name', max_length=100, required=False)
+    type = forms.ChoiceField(label='Type', choices=Building.Types.choices, required=False, )
+
 class SpaceForm(forms.ModelForm):
     class Meta:
         model = Space
@@ -34,3 +39,4 @@ class SpaceForm(forms.ModelForm):
             'geometrie': forms.OSMWidget(attrs={'default_lon' : 7.75290774889795, 'default_lat': 48.5734425944796}),
             'date_purchase': forms.DateInput(attrs={'type': 'date'})
         }
+

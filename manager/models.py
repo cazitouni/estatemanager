@@ -33,11 +33,21 @@ class Building(models.Model):
         ordering = ["-name"]
 
     class Administrators(models.TextChoices):
-        GIPB = 'Gestion et Inventaire du Patrimoine Bâti', _('GIPB')
-        CULTES = 'Cultes', _('Cultes')
-        SPORT = 'Patrimoine Sportif', _('Patrimoine Sportif')
+        EMPTY_LABEL = '', '---------'
+        INTERNAL = 'Internal', _('Internal')
+        EXTERNAL = 'External', _('External')
+
+    
+    class Owner(models.TextChoices):
+        EMPTY_LABEL = '', '---------'
+        CITY = 'City', _('City')
+        METROPOLITAN = 'Metropolitan area', _('Metropolitan area')
+        REGION = 'Region', _('Region')
+        STATE = 'State', _('Sate')
+        PRIVATE = 'PPrivate owner', _('Private owner')
 
     class Types(models.TextChoices):
+        EMPTY_LABEL = '', '---------'
         SCHOOL = 'School', _('School')
         ADMINISTRATION = 'Administration', _('Administration')
         SPORT = 'Sport', _('Sport')
@@ -62,7 +72,8 @@ class Building(models.Model):
     surface_floor = models.FloatField(blank=True, null = True)
     surface_under_roof = models.FloatField(blank=True, null = True)
     archived = models.BooleanField(blank=True, null = True, default=False)
-    types = models.CharField(max_length=50, choices=Types.choices, blank=True)
+    types = models.CharField(max_length=50, choices=Types.choices, null = False)
+    owner = models.CharField(max_length=50, choices=Owner.choices, blank=True, null = False)
 
     def __str__(self):
         return self.name

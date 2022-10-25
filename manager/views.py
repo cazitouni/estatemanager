@@ -1,35 +1,50 @@
 import io
+import json
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse, Http404, FileResponse
+from django.http import HttpResponse, Http404, FileResponse, JsonResponse
 from django_user_agents.utils import get_user_agent
 from django.core.paginator import Paginator
 from reportlab.pdfgen import canvas
 from .forms import *
 
+def search(request): 
+
+    if request.method == "POST" :
+        print(request.POST)
+        jsonObject = json.dumps(request.POST)
+        return JsonResponse({"jsonObject" : jsonObject})
+    return None
+
 def index(request):
     name = None
     types = None
-    
-    if request.method == "POST":
-        name = str(request.POST.get('name'))
-        types = str(request.POST.get('type'))
-        buildings = Building.objects.filter(name__icontains = name, types__icontains = types)
+    form = SearchBuildingForm(request.POST)
 
+    if request.method == "POST":
+
+        name = request.POST.get("name")
+        types = form['type'].value()
+
+        if types == '': 
+            buildings = Building.objects.filter(name__icontains = name).order_by('-date_modified')
+        else:
+            buildings = Building.objects.filter(types__icontains = types, name__icontains = name).order_by('-date_modified')
     else : 
-        buildings = Building.objects.all()
+        buildings = Building.objects.all().order_by('-date_modified')
+        
     user_agent = get_user_agent(request)
     paginator = Paginator(buildings, 5)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-
-
     
+
     if user_agent.is_mobile:
         context = {
             "Sites" : Site.objects.all().order_by('-date_modified'),
             "Buildings" : Building.objects.all(),
-            "Spaces" : Space.objects.all().order_by('-date_modified')
+            "Spaces" : Space.objects.all().order_by('-date_modified'),
+            "form" : form
         }
         return render(request, "index_mobile.html", context)
     else:
@@ -38,7 +53,8 @@ def index(request):
             "Buildings" : page_obj,
             "Spaces" : Space.objects.all().order_by('-date_modified'),
             "name": name,
-            "type" : types
+            "type" : types,
+            "form" : form
         }
         return render(request, "index.html", context)
 

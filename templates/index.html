@@ -16,14 +16,13 @@ Index
 
   <div style="width: 20%;height:calc(100vh - 76.6px);border: 1%;border-style: solid;">
     <div class="d-flex flex-row flex-fill scrollDiv justify-content-center" style="background-color: blue;height: 90%;">
-      <form style="width: 80%;margin-top: 10px;" method = "post" enctype="multipart/form-data">
+      <form style="width: 90%;margin-top: 5%;" method = "post" enctype="multipart/form-data">
         {% csrf_token %}
-        <input id="name" name="name" type="text" id="textInput" class="form-control mb-4" placeholder="Name">
-        <input id="type" name="type" type="text" id="textInput" class="form-control mb-4" placeholder="Type">
+        {{ form | crispy}}
     </div>
 
     <div class="d-flex flex-row justify-content-center align-items-center" style="background-color: rgba(31, 60, 187, 0.1);height: 10%;">
-      <button  class="btn btn-primary"style="width:80%;">Search</button>
+      <button id="ajax-call" type="submit" class="btn btn-primary"style="width:80%;" >Search</button>
     </div>
   </form>
   </div>
@@ -54,7 +53,7 @@ Index
         <ul class="pagination justify-content-center" style="margin:0px !important">
           {% if Buildings.has_previous %}
             <li class="page-item">
-              <a class="page-link" onclick="getQuery('{{ Buildings.previous_page_number }}')">Previous</a>
+              <a class="page-link" onclick="getQuery('{{ Building.previous_page_number }}')">Previous</a>
             </li>
           {% else %}
             <li class="page-item disabled">
@@ -75,7 +74,7 @@ Index
           {% endfor %}
           {% if Buildings.has_next %}
             <li class="page-item">
-              <a class="page-link" onclick="getQuery('{{ Buildings.next_page_number }}')" >Next</a>
+              <a id="pageNext" class="page-link" onclick="getQuery('{{ Building.next_page_number }}')" >Next</a>
             </li>
           {% else %}
             <li class="page-item disabled">
@@ -90,19 +89,35 @@ Index
 </div>
 
 <script>
-
 document.addEventListener("DOMContentLoaded", function() {
 
   if ( "{{name}}" != "None") {
-    document.getElementById('name').value = "{{name}}"
+    document.getElementById('id_name').value = "{{name}}"
   }
   if ( "{{type}}" != "None") {
-    document.getElementById('type').value = "{{type}}"
+    document.getElementById('id_type').value = "{{type}}"
   }
 
 
 });
+document.querySelector("#pageNext").addEventListener("click", event => {
+  let formData = new FormData();
+  formData.append('name', document.querySelector("#id_name").value);
+  formData.append('type', document.querySelector("#id_type").value);
 
+  x = document.getElementsByName("csrfmiddlewaretoken")[0].value;
+  const request = new Request('{% url "index" %}', {method: 'POST', body: formData, headers: {'X-CSRFToken': x}});
+  const parser = new DOMParser();
+  fetch(request)
+  .then(response => response.text())
+  .then(result => {
+
+      var doc = parser.parseFromString(result, "text/html");
+      console.log(innerHTML = doc.getElementById('pgDiv').innerHTML)
+
+  })
+  
+})
 
 
 </script>
