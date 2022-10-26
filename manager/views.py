@@ -23,7 +23,7 @@ def index(request):
     if request.method == "POST":
 
         name = request.POST.get("name")
-        types = form['type'].value()
+        types = request.POST.get("type")
 
         if types == '': 
             buildings = Building.objects.filter(name__icontains = name).order_by('-date_modified')

@@ -28,7 +28,13 @@ class BuildingForm(forms.ModelForm):
 class SearchBuildingForm(forms.Form):
     
     name = forms.CharField(label='Name', max_length=100, required=False)
-    type = forms.ChoiceField(label='Type', choices=Building.Types.choices, required=False, )
+    type = forms.ChoiceField(label='Type', choices=Building.Types.choices, required=False)
+    administrators = forms.ChoiceField(label='Administrators', choices=Building.Administrators.choices, required=False)
+    owner = forms.ChoiceField(label='Owner', choices=Building.Owner.choices, required=False)
+    build_after = forms.DateField( label='Built after', required=False)
+    archived = forms.BooleanField(label='Is Archived', required=False)
+    
+
 
 class SpaceForm(forms.ModelForm):
     class Meta:

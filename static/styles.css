@@ -15,25 +15,25 @@ background: white;
 }
 .rotate
 {
-    -moz-transition: all 0.5s linear;
-    -webkit-transition: all 0.5s linear;
-    transition: all 0.5s linear;
+-moz-transition: all 0.5s linear;
+-webkit-transition: all 0.5s linear;
+transition: all 0.5s linear;
 }
 .with-chevron
 {
-    color: black;
-    text-decoration: none;
+color: black;
+text-decoration: none;
 }
 .with-chevron[aria-expanded='true'] span {
-    -ms-transform: rotate(90deg);
-    -moz-transform: rotate(90deg);
-    -webkit-transform: rotate(90deg);
-    transform: rotate(90deg);
-  }
+-ms-transform: rotate(90deg);
+-moz-transform: rotate(90deg);
+-webkit-transform: rotate(90deg);
+transform: rotate(90deg);
+}
 #media-card
 {
-    margin: 10px;
-    padding: 10px;
+margin: 10px;
+padding: 10px;
 }
 
 
@@ -52,4 +52,41 @@ scrollbar-width: none;  /* Firefox */
 #indexCards
 {
 overflow: Hidden;
+}
+#sideButton {
+position:absolute;
+width: 2%;
+height:4%;
+display:flex;
+justify-content:center;
+align-items:center;
+top:calc(50% - 2%);
+left:calc(20% - 1.5%);
+z-index:1;
+}
+#sideButton.hide 
+{
+top:48%;
+left:-1.5%;
+z-index:1;
+transform: rotate(180deg);
+}
+#searchDiv
+{ 
+border-right-style: solid;
+border-right: 1%;
+background-color: #9fa6b26e;
+border-color:#9fa6b26e ;
+margin-right: 1% ;
+}
+#searchDiv.hide {
+visibility: hidden;
+position: fixed;
+left: -22%;
+}
+#searchBtnDiv
+{
+border-top-style: solid;
+border-top: 1%;
+border-color:#9fa6b26e ;
 }

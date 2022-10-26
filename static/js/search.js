@@ -1,5 +1,4 @@
 function searchFunction() {
-    console.log(document.getElementById("id_name"))
     var input, filter, cards, cardContainer, h5, title, i;
     input = document.getElementById("searchBox");
     filter = input.value.toUpperCase();
@@ -14,3 +13,4 @@ function searchFunction() {
         }
     }
 }
+
