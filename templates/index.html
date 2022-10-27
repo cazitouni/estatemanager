@@ -14,10 +14,10 @@ Index
 
 <div class="d-flex flex-row justify-content-fill">
   
-  <div  id="searchDiv" style="width: 20%;height:calc(100vh - 76.6px);">
+  <div class="shadow-4"  id="searchDiv" style="width: 20%;height:calc(100vh - 76.6px);">
     
     <div class="d-flex flex-row flex-fill scrollDiv justify-content-center" style="height: 90%;">
-    <form style="width: 90%;margin-top: 5%;" method = "post" enctype="multipart/form-data">
+    <form id="djangoForm" style="width: 90%;margin-top: 5%;" method = "post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form | crispy}}
         
@@ -29,10 +29,11 @@ Index
     
 
   </div>
-  <button id="sideButton" type="button" class="btn btn-primary" onclick="toggle()"><i class="bi bi-chevron-double-left"></i></button>
+ <!-- <button id="sideButton" type="button" class="btn btn-secondary" onclick="toggle()"><i style="font-weight: 900;"class="bi bi-chevron-double-left"></i></button> -->
 
   <div class="flex-fill" style="height:calc(100vh - 76.6px);">
-    <div id="pgDiv" class="d-flex flex-column flex-fill" style="height: 90%;margin: 0.5%;margin-bottom: 0px;">
+    <div id="pgDiv" class="d-flex flex-column flex-fill" style="height: 90%;padding:1%">
+      {% if get_request != True %}
       {% for Building in Buildings %}
         <div class="d-flex flex-row" style="height: 20%;">
           <div id="indexCards" class="flex-row d-flex card card-body" style="height: 95%;width: 100%;padding:1%;">
@@ -49,7 +50,12 @@ Index
           </div>
         </div>
         </div>
+      {% empty %}
+      <div class="d-flex d-flex-row flex-fill justify-content-center align-items-center indexPlaceholder">No results !</div>
       {% endfor %}
+      {% else %}
+      <div class="d-flex d-flex-row flex-fill justify-content-center align-items-center indexPlaceholder">Nothing to see here launch a research !</div>
+      {% endif %}
     </div>
     
     <div class="d-flex flex-row justify-content-center align-items-center" style="height: 10%;">
@@ -93,18 +99,6 @@ Index
 </div>
 
 <script>
-document.addEventListener("DOMContentLoaded", function() {
-
-  if ( "{{name}}" != "None") {
-    document.getElementById('id_name').value = "{{name}}"
-  }
-  if ( "{{type}}" != "None") {
-    document.getElementById('id_type').value = "{{type}}"
-  }
-
-
-
-});
 function toggle () {
   document.getElementById("searchDiv").classList.toggle("hide");
   document.getElementById("sideButton").classList.toggle("hide");

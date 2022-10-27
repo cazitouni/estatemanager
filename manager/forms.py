@@ -31,7 +31,7 @@ class SearchBuildingForm(forms.Form):
     type = forms.ChoiceField(label='Type', choices=Building.Types.choices, required=False)
     administrators = forms.ChoiceField(label='Administrators', choices=Building.Administrators.choices, required=False)
     owner = forms.ChoiceField(label='Owner', choices=Building.Owner.choices, required=False)
-    build_after = forms.DateField( label='Built after', required=False)
+    build_after = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), label='Built after', required=False)
     archived = forms.BooleanField(label='Is Archived', required=False)
     
 

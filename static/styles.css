@@ -55,38 +55,43 @@ overflow: Hidden;
 }
 #sideButton {
 position:absolute;
-width: 2%;
-height:4%;
+height: 30px;
+width: 30px;
 display:flex;
-justify-content:center;
+justify-content:start;
 align-items:center;
-top:calc(50% - 2%);
-left:calc(20% - 1.5%);
+top:calc(50% - 44.6px);
+left:calc(20% - 15px);
 z-index:1;
 }
 #sideButton.hide 
 {
-top:48%;
-left:-1.5%;
-z-index:1;
+top:calc(50% - 44.6px);
+left:-20px;
+justify-content:end;
 transform: rotate(180deg);
 }
 #searchDiv
 { 
-border-right-style: solid;
-border-right: 1%;
-background-color: #9fa6b26e;
-border-color:#9fa6b26e ;
-margin-right: 1% ;
+z-index: 2;
+background-color: #FBFBFB;
 }
 #searchDiv.hide {
 visibility: hidden;
 position: fixed;
 left: -22%;
 }
-#searchBtnDiv
+
+#div_id_archived
+{  
+    margin-top : 10%;
+    border-top-style: solid;
+    border-color: #9fa6b263;
+    padding-top: 10%;
+}
+.indexPlaceholder
 {
-border-top-style: solid;
-border-top: 1%;
-border-color:#9fa6b26e ;
+    font-size: xx-large;
+    color:#9fa6b263;
+    font-weight: bolder;
 }

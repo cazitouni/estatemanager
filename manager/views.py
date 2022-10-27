@@ -16,28 +16,48 @@ def search(request):
     return None
 
 def index(request):
+    
     name = None
     types = None
+    administrators = None
+    owner = None
+    build_after = None
+    archived = None
+    paginatore = None
+    buildings = []
+    paginator = Paginator(buildings, 5)
     form = SearchBuildingForm(request.POST)
+    buildings = Building.objects.all().order_by('-date_modified')
+    user_agent = get_user_agent(request)
 
     if request.method == "POST":
-
         name = request.POST.get("name")
         types = request.POST.get("type")
-
-        if types == '': 
-            buildings = Building.objects.filter(name__icontains = name).order_by('-date_modified')
-        else:
-            buildings = Building.objects.filter(types__icontains = types, name__icontains = name).order_by('-date_modified')
+        administrators = request.POST.get("administrators")
+        owner = request.POST.get("owner")
+        build_after = request.POST.get("build_after")
+        archived = request.POST.get("archived")       
+        if types != '': 
+            buildings = buildings.filter(types__icontains = types)
+        if name != '':
+            buildings = buildings.filter(name__icontains = name)
+        if administrators != '':
+            buildings = buildings.filter(administrators__icontains = administrators)
+        if owner != '':
+            buildings = buildings.filter(owner__icontains = owner)
+        if build_after != '':
+            buildings = buildings.filter(date_build__gt=build_after)
+        if archived != None:
+            buildings = buildings.filter(archived=True)
+        paginator = Paginator(buildings, 5)
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+        get_request = False      
     else : 
-        buildings = Building.objects.all().order_by('-date_modified')
+        page_number = request.GET.get('page')
+        page_obj=paginator.get_page(page_number)
+        get_request = True
         
-    user_agent = get_user_agent(request)
-    paginator = Paginator(buildings, 5)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
-    
-
     if user_agent.is_mobile:
         context = {
             "Sites" : Site.objects.all().order_by('-date_modified'),
@@ -53,7 +73,12 @@ def index(request):
             "Spaces" : Space.objects.all().order_by('-date_modified'),
             "name": name,
             "type" : types,
-            "form" : form
+            "administrators" : administrators,
+            "owner" : owner,
+            "build_after" : build_after,
+            "archived" : archived,
+            "form" : form,
+            "get_request" : get_request
         }
         return render(request, "index.html", context)
 
