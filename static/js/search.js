@@ -1,3 +1,7 @@
+
+
+
+
 function searchFunction() {
     var input, filter, cards, cardContainer, h5, title, i;
     input = document.getElementById("searchBox");
@@ -13,4 +17,3 @@ function searchFunction() {
         }
     }
 }
-

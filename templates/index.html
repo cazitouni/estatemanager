@@ -103,5 +103,15 @@ function toggle () {
   document.getElementById("searchDiv").classList.toggle("hide");
   document.getElementById("sideButton").classList.toggle("hide");
 } 
+var form = document.getElementById("djangoForm");
+
+form.addEventListener("input", function () {
+
+ var buttons = document.getElementsByClassName("page-link");
+  for(var i = 0; i < buttons.length; i++) {
+    buttons[i].classList.add("disabled");
+    console.log('ok')
+}
+});
 </script>
 {% endblock %}
