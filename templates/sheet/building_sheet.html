@@ -30,20 +30,41 @@
           <a class="with-chevron" type="button" data-bs-toggle="collapse" href="#surfaces"  aria-expanded="false" aria-controls="collapseOne">
             <h3 class="d-flex justify-content-between">Surfaces<span class="rotate bi bi-caret-right-fill"></span></h3>
           </a>
-            <div class="collapse " id="surfaces" style="margin-top: 20px;">
+          <div class="collapse " id="surfaces" style="margin-top: 20px;">
+            <div>
               <div>
-                <div>
-                    <h6>External work surface: {{Building.surface_external_work | default_if_none:"/"}} m²</h6>
-                    <h6>Internal work surface : {{Building.surface_internal_work | default_if_none:"/"}} m²</h6> 
-                    <h6>Office surface : {{Building.surface_office | default_if_none:"/"}} m²</h6>
-                    <h6>Rent surface : {{Building.surface_rent | default_if_none:"/"}} m²</h6>
-                    <h6>Floor surface : {{Building.surface_floor | default_if_none:"/"}} m²</h6>
-                    <h6>Under roof surface : {{Building.surface_under_roof | default_if_none:"/"}} m²</h6>
-                </div>
+                <h6>External work surface: {{Building.surface_external_work | default_if_none:"/"}} m²</h6>
+                <h6>Internal work surface : {{Building.surface_internal_work | default_if_none:"/"}} m²</h6> 
+                <h6>Office surface : {{Building.surface_office | default_if_none:"/"}} m²</h6>
+                <h6>Rent surface : {{Building.surface_rent | default_if_none:"/"}} m²</h6>
+                <h6>Floor surface : {{Building.surface_floor | default_if_none:"/"}} m²</h6>
+                <h6>Under roof surface : {{Building.surface_under_roof | default_if_none:"/"}} m²</h6>
               </div>
             </div>
           </div>
+        </div>
+
+        <div class=" card card-body" style="margin:10px;" >
+          <a class="with-chevron" type="button" data-bs-toggle="collapse" href="#spaces"  aria-expanded="false" aria-controls="collapseOne">
+            <h3 class="d-flex justify-content-between">Related spaces<span class="rotate bi bi-caret-right-fill"></span></h3>
+          </a>
+          <div class="collapse " id="spaces" style="margin-top: 20px;">
+            <div>
+              <div>
+                <h6>External work surface: {{Building.surface_external_work | default_if_none:"/"}} m²</h6>
+                <h6>Internal work surface : {{Building.surface_internal_work | default_if_none:"/"}} m²</h6> 
+                <h6>Office surface : {{Building.surface_office | default_if_none:"/"}} m²</h6>
+                <h6>Rent surface : {{Building.surface_rent | default_if_none:"/"}} m²</h6>
+                <h6>Floor surface : {{Building.surface_floor | default_if_none:"/"}} m²</h6>
+                <h6>Under roof surface : {{Building.surface_under_roof | default_if_none:"/"}} m²</h6>
+              </div>
+            </div>
+          </div>
+        </div>
+
     </div>
+
+    
     <div style="width:30%;word-wrap: break-word ">
       <div  class="card card-body" style="margin:10px;"> 
         <h3>Localisation : </h3>
@@ -56,10 +77,9 @@
       {% endif %}
     </div>
     <div  class="card card-body" style="margin:10px;"> 
-      <h3>Related Spaces : </h3>
-      {% for Space in Spaces %}
-      <p>{{Space.name}}</p> 
-      {% endfor %}</div>
+      <h3>Related Site : </h3>
+     <div class="d-flex flex-column justify-content-center flex-fill align-items-center" style="margin-top:10px;"> <a href="{% url 'sheetSite' Building.site.id %}"><h4>{{Building.site}}</h4></a> </div>
+    </div>
   </div>
 
 </div>

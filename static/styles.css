@@ -35,13 +35,10 @@ transform: rotate(90deg);
 margin: 10px;
 padding: 10px;
 }
-
-
 .scrollDiv::-webkit-scrollbar
 {
 display: none;
 }
-
 .scrollDiv 
 {
 width: 100%;

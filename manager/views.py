@@ -122,7 +122,7 @@ def sheetBuilding(request, buildingId):
             Buildinginstance= Building.objects.get(id=buildingId)
             
         except Building.DoesNotExist:
-            raise Http404("This post does not exist")
+            raise Http404("This Building does not exist")
 
         if Buildinginstance.geometrie != None : 
             Buildinginstance.geometrie.transform(4326)
@@ -134,7 +134,47 @@ def sheetBuilding(request, buildingId):
         }
         
         return render(request, "sheet/building_sheet.html", context)
+    
+def sheetSite(request, siteId):
 
+    if request.method == "GET":
+
+        try:
+            siteinstance= Site.objects.get(id=siteId)
+            
+        except Building.DoesNotExist:
+            raise Http404("This Site does not exist")
+
+        if siteinstance.geometrie != None : 
+            siteinstance.geometrie.transform(4326)
+        
+        context ={
+            "Site" : siteinstance,
+            "geometrie" : siteinstance.geometrie,
+            "Buildings" : Building.objects.filter(site = siteId)
+        }
+        
+        return render(request, "sheet/site_sheet.html", context)
+
+def sheetSpace(request, spaceId):
+
+    if request.method == "GET":
+
+        try:
+            spaceinstance= Space.objects.get(id=spaceId)
+            
+        except Building.DoesNotExist:
+            raise Http404("This Space does not exist")
+
+        if spaceinstance.geometrie != None : 
+            spaceinstance.geometrie.transform(4326)
+        
+        context ={
+            "Space" : spaceinstance,
+            "geometrie" : spaceinstance.geometrie,
+        }
+        
+        return render(request, "sheet/space_sheet.html", context)
 @login_required
 def editBuilding(request, buildingId):
     Buildinginstance= Building.objects.get(id=buildingId)

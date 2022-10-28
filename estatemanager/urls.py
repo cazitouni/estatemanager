@@ -30,7 +30,9 @@ urlpatterns = [
     path('add/space', views.addSpace, name = 'addSpace'),
     path('success', views.success, name = 'success'),
     path('search', views.search, name = 'search'),
-    path("<int:buildingId>", views.sheetBuilding, name="sheetBuilding"),
+    path("site/<int:siteId>", views.sheetSite, name="sheetSite"),
+    path("building/<int:buildingId>", views.sheetBuilding, name="sheetBuilding"),
+    path("space/<int:spaceId>", views.sheetSpace, name="sheetSpace"),
     path("edit/<int:buildingId>", views.editBuilding, name="editBuilding"),
     path('report/<int:buildingId>', views.report, name = 'report'),
 ]

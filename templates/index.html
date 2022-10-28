@@ -53,9 +53,9 @@ Index
             {% if Building.site %}
             <a href="{% url 'sheetBuilding' Building.id %}" class="btn btn-primary">Go <i class="bi bi-chevron-double-right"></i></a>
             {% elif Building.building %}
-            <a href="{% url 'index' %}" class="btn btn-primary">Go <i class="bi bi-chevron-double-right"></i></a>
+            <a href="{% url 'sheetSpace' Building.id %}" class="btn btn-primary">Go <i class="bi bi-chevron-double-right"></i></a>
             {% else %}
-            <a href="{% url 'index' %}" class="btn btn-primary">Go <i class="bi bi-chevron-double-right"></i></a>
+            <a href="{% url 'sheetSite' Building.id %}" class="btn btn-primary">Go <i class="bi bi-chevron-double-right"></i></a>
             {% endif %}
           </div>
         </div>
@@ -113,15 +113,14 @@ function toggle () {
   document.getElementById("searchDiv").classList.toggle("hide");
   document.getElementById("sideButton").classList.toggle("hide");
 } 
-var form = document.getElementById("djangoForm");
 
-form.addEventListener("input", function () {
-
- var buttons = document.getElementsByClassName("page-link");
-  for(var i = 0; i < buttons.length; i++) {
-    buttons[i].classList.add("disabled");
-    console.log('ok')
-}
-});
+var formData = new FormData();
+formData.append('name', document.querySelector("#id_name").value);
+formData.append('type', document.querySelector("#id_type").value);
+formData.append('element', document.querySelector("#id_element").value);
+formData.append('administrators', document.querySelector("#id_administrators").value);
+formData.append('owner', document.querySelector("#id_owner").value);
+formData.append('build_after', document.querySelector("#id_build_after").value);
+if (document.querySelector("#id_archived").checked){formData.append('archived', document.querySelector("#id_archived").value);}
 </script>
 {% endblock %}
