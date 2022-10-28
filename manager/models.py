@@ -15,14 +15,44 @@ class Profile(models.Model):
 
 
 class Site(models.Model):
-    name = models.CharField(max_length=255, unique=True)
+    
+    class Meta:
+        ordering = ["-name"]
+
+    class Administrators(models.TextChoices):
+        EMPTY_LABEL = '', '---------'
+        INTERNAL = 'Internal', _('Internal')
+        EXTERNAL = 'External', _('External')
+
+    
+    class Owner(models.TextChoices):
+        EMPTY_LABEL = '', '---------'
+        CITY = 'City', _('City')
+        METROPOLITAN = 'Metropolitan area', _('Metropolitan area')
+        REGION = 'Region', _('Region')
+        STATE = 'State', _('Sate')
+        PRIVATE = 'Private owner', _('Private owner')
+
+    class Types(models.TextChoices):
+        EMPTY_LABEL = '', '---------'
+        SCHOOL = 'School', _('School')
+        ADMINISTRATION = 'Administration', _('Administration')
+        SPORT = 'Sport', _('Sport')
+        OFFICE = 'Office', _('Office')
+        HOUSING = 'Housing', _('Housing') 
+
+    name = models.CharField(max_length=20, unique=True)
     date_created = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
     date_build = models.DateField(blank=True, null = True)
     date_purchase = models.DateField(blank=True, null = True)
+    image = models.ImageField(upload_to='images/', blank=True)
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
     geometrie = models.MultiPolygonField(srid=3948, null = True, blank=True)
     archived = models.BooleanField(blank=True, null = True, default=False)
+    administrators = models.CharField(max_length=50, choices=Administrators.choices, blank=True)
+    types = models.CharField(max_length=50, choices=Types.choices, null = False)
+    owner = models.CharField(max_length=50, choices=Owner.choices, blank=True, null = False)
 
     def __str__(self):
         return self.name
@@ -44,7 +74,7 @@ class Building(models.Model):
         METROPOLITAN = 'Metropolitan area', _('Metropolitan area')
         REGION = 'Region', _('Region')
         STATE = 'State', _('Sate')
-        PRIVATE = 'PPrivate owner', _('Private owner')
+        PRIVATE = 'Private owner', _('Private owner')
 
     class Types(models.TextChoices):
         EMPTY_LABEL = '', '---------'
@@ -54,7 +84,7 @@ class Building(models.Model):
         OFFICE = 'Office', _('Office')
         HOUSING = 'Housing', _('Housing') 
 
-    name = models.CharField(max_length=255, unique=True, null = False)
+    name = models.CharField(max_length=20, unique=True, null = False)
     street = models.CharField(max_length=255, blank=True)
     date_build = models.DateField(blank=True, null = True)
     date_purchase = models.DateField(blank=True, null = True)
@@ -79,14 +109,44 @@ class Building(models.Model):
         return self.name
 
 class Space(models.Model):
-    name = models.CharField(max_length=255, unique=True)
+    
+    class Meta:
+        ordering = ["-name"]
+
+    class Administrators(models.TextChoices):
+        EMPTY_LABEL = '', '---------'
+        INTERNAL = 'Internal', _('Internal')
+        EXTERNAL = 'External', _('External')
+
+    
+    class Owner(models.TextChoices):
+        EMPTY_LABEL = '', '---------'
+        CITY = 'City', _('City')
+        METROPOLITAN = 'Metropolitan area', _('Metropolitan area')
+        REGION = 'Region', _('Region')
+        STATE = 'State', _('Sate')
+        PRIVATE = 'Private owner', _('Private owner')
+
+    class Types(models.TextChoices):
+        EMPTY_LABEL = '', '---------'
+        SCHOOL = 'School', _('School')
+        ADMINISTRATION = 'Administration', _('Administration')
+        SPORT = 'Sport', _('Sport')
+        OFFICE = 'Office', _('Office')
+        HOUSING = 'Housing', _('Housing') 
+    name = models.CharField(max_length=20, unique=True)
     building = models.ForeignKey(Building, on_delete=models.CASCADE)
+    date_build = models.DateField(blank=True, null = True)
     date_created = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
     date_purchase = models.DateField(blank=True, null = True)
+    image = models.ImageField(upload_to='images/', blank=True)
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
     geometrie = models.MultiPolygonField(srid=3948, null = True, blank=True)
     archived = models.BooleanField(blank=True, null = True, default=False)
+    administrators = models.CharField(max_length=50, choices=Administrators.choices, blank=True)
+    types = models.CharField(max_length=50, choices=Types.choices, null = False)
+    owner = models.CharField(max_length=50, choices=Owner.choices, blank=True, null = False)
 
     def __str__(self):
         return self.name

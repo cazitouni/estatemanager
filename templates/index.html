@@ -40,13 +40,23 @@ Index
             <img src="{% static 'images/index_template.png' %}" class="card-img-top" style="height:100%;object-fit:cover;width: 20%;" alt="...">
            <div class="d-flex flex-column"style="margin-left:2%;width:50%">
               <h1>{{Building.name}}</h1>
+              {% if Building.site %}
               <p>{{Building.site}}</p>
+              {% elif Building.building %}
+              <p>{{Building.building}}</p>
+              {% endif %}
             </div>
             <div class="d-flex flex-column justify-content-center flex-fill"style="margin-left:2%;">
               <h5>{{Building.types}}</h5>
             </div>
             <div class="d-flex flex-column justify-content-end"style="margin-left:2%;">
+            {% if Building.site %}
             <a href="{% url 'sheetBuilding' Building.id %}" class="btn btn-primary">Go <i class="bi bi-chevron-double-right"></i></a>
+            {% elif Building.building %}
+            <a href="{% url 'index' %}" class="btn btn-primary">Go <i class="bi bi-chevron-double-right"></i></a>
+            {% else %}
+            <a href="{% url 'index' %}" class="btn btn-primary">Go <i class="bi bi-chevron-double-right"></i></a>
+            {% endif %}
           </div>
         </div>
         </div>

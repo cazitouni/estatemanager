@@ -7,6 +7,7 @@ from django_user_agents.utils import get_user_agent
 from django.core.paginator import Paginator
 from reportlab.pdfgen import canvas
 from .forms import *
+from itertools import chain
 
 def search(request): 
 
@@ -28,28 +29,56 @@ def index(request):
     paginator = Paginator(buildings, 5)
     form = SearchBuildingForm(request.POST)
     buildings = Building.objects.all().order_by('-date_modified')
+    sites = Site.objects.all().order_by('-date_modified')
+    spaces = Space.objects.all().order_by('-date_modified')
     user_agent = get_user_agent(request)
 
     if request.method == "POST":
+        
+        element = request.POST.get("element")
         name = request.POST.get("name")
         types = request.POST.get("type")
         administrators = request.POST.get("administrators")
         owner = request.POST.get("owner")
         build_after = request.POST.get("build_after")
-        archived = request.POST.get("archived")       
+        archived = request.POST.get("archived")      
+        
+         
         if types != '': 
             buildings = buildings.filter(types__icontains = types)
+            sites = sites.filter(types__icontains = types)
+            spaces = spaces.filter(types__icontains = types)
         if name != '':
             buildings = buildings.filter(name__icontains = name)
+            sites = sites.filter(name__icontains = name)
+            spaces = spaces.filter(name__icontains = name)
         if administrators != '':
             buildings = buildings.filter(administrators__icontains = administrators)
+            sites = sites.filter(administrators__icontains = administrators)
+            spaces = spaces.filter(name__icontains = name)
         if owner != '':
             buildings = buildings.filter(owner__icontains = owner)
+            sites = sites.filter(owner__icontains = owner)
+            spaces = spaces.filter(owner__icontains = owner)
         if build_after != '':
             buildings = buildings.filter(date_build__gt=build_after)
+            sites = sites.filter(date_build__gt = date_build)
+            spaces = spaces.filter(date_build__gt = date_build)
         if archived != None:
             buildings = buildings.filter(archived=True)
-        paginator = Paginator(buildings, 5)
+            sites = sites.filter(archived=True)
+            spaces = spaces.filter(archived=True)
+
+        if element == '' or element == None: 
+            result_list = list(chain(sites, buildings, spaces))
+        if element == 'Site' :
+            result_list = sites
+        if element == 'Building' :
+            result_list = buildings
+        if element == 'Space':
+            result_list = spaces
+            
+        paginator = Paginator(result_list, 5)
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)
         get_request = False      
@@ -58,30 +87,22 @@ def index(request):
         page_obj=paginator.get_page(page_number)
         get_request = True
         
-    if user_agent.is_mobile:
-        context = {
-            "Sites" : Site.objects.all().order_by('-date_modified'),
-            "Buildings" : Building.objects.all(),
-            "Spaces" : Space.objects.all().order_by('-date_modified'),
-            "form" : form
-        }
-        return render(request, "index_mobile.html", context)
-    else:
-        context = {
-            "Sites" : Site.objects.all().order_by('-date_modified'),
-            "Buildings" : page_obj,
-            "Spaces" : Space.objects.all().order_by('-date_modified'),
-            "name": name,
-            "type" : types,
-            "administrators" : administrators,
-            "owner" : owner,
-            "build_after" : build_after,
-            "archived" : archived,
-            "form" : form,
-            "get_request" : get_request
-        }
-        return render(request, "index.html", context)
 
+    context = {
+        "Sites" : Site.objects.all().order_by('-date_modified'),
+        "Buildings" : page_obj,
+        "Spaces" : Space.objects.all().order_by('-date_modified'),
+        "name": name,
+        "type" : types,
+        "administrators" : administrators,
+        "owner" : owner,
+        "build_after" : build_after,
+        "archived" : archived,
+        "form" : form,
+        "get_request" : get_request
+    }
+    return render(request, "index.html", context)
+ 
 def report(request, buildingId):
 
     buffer = io.BytesIO()
