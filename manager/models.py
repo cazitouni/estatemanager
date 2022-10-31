@@ -1,6 +1,9 @@
 from django.contrib.gis.db import models
 from django.utils.translation import gettext_lazy as _
 from django.conf import settings
+from decouple import config
+
+
 
 class Profile(models.Model):
     user = models.OneToOneField(
@@ -48,7 +51,7 @@ class Site(models.Model):
     date_purchase = models.DateField(blank=True, null = True)
     image = models.ImageField(upload_to='images/', blank=True)
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
-    geometrie = models.MultiPolygonField(srid=3948, null = True, blank=True)
+    geometrie = models.MultiPolygonField(srid=int(config('SRID')), null = True, blank=True)
     archived = models.BooleanField(blank=True, null = True, default=False)
     administrators = models.CharField(max_length=50, choices=Administrators.choices, blank=True)
     types = models.CharField(max_length=50, choices=Types.choices, null = False)
@@ -94,7 +97,7 @@ class Building(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
     site = models.ForeignKey(Site, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='images/', blank=True)
-    geometrie = models.MultiPolygonField(srid=3948, null = True, blank=True)
+    geometrie = models.MultiPolygonField(srid=int(config('SRID')), null = True, blank=True)
     surface_external_work = models.FloatField(blank=True, null = True)
     surface_internal_work = models.FloatField(blank=True, null = True)
     surface_office = models.FloatField(blank=True, null = True)
@@ -142,7 +145,7 @@ class Space(models.Model):
     date_purchase = models.DateField(blank=True, null = True)
     image = models.ImageField(upload_to='images/', blank=True)
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
-    geometrie = models.MultiPolygonField(srid=3948, null = True, blank=True)
+    geometrie = models.MultiPolygonField(srid=int(config('SRID')), null = True, blank=True)
     archived = models.BooleanField(blank=True, null = True, default=False)
     administrators = models.CharField(max_length=50, choices=Administrators.choices, blank=True)
     types = models.CharField(max_length=50, choices=Types.choices, null = False)

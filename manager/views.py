@@ -22,11 +22,13 @@ def search(request):
 def index(request):
     
     name = None
+    address = None
     types = None
     administrators = None
     owner = None
     build_after = None
     archived = None
+    list_addr = []
     
     buildings = []
     paginator = Paginator(buildings, 5)
@@ -44,7 +46,8 @@ def index(request):
         administrators = request.POST.get("administrators")
         owner = request.POST.get("owner")
         build_after = request.POST.get("build_after")
-        archived = request.POST.get("archived")      
+        archived = request.POST.get("archived")   
+        address = request.POST.get("address")   
         
          
         if types != '': 
@@ -55,6 +58,12 @@ def index(request):
             buildings = buildings.filter(name__icontains = name)
             sites = sites.filter(name__icontains = name)
             spaces = spaces.filter(name__icontains = name)
+        if address != '':
+            buildings = buildings.filter(street__icontains = address)
+            for building in buildings :
+                list_addr.append(building.site)
+            sites = sites.filter(name__in = list_addr)
+            spaces = spaces.filter(building__street__icontains = address)
         if administrators != '':
             buildings = buildings.filter(administrators__icontains = administrators)
             sites = sites.filter(administrators__icontains = administrators)
@@ -96,6 +105,7 @@ def index(request):
         "Buildings" : page_obj,
         "Spaces" : Space.objects.all().order_by('-date_modified'),
         "name": name,
+        "address": address,
         "type" : types,
         "administrators" : administrators,
         "owner" : owner,
@@ -260,6 +270,7 @@ def addSite(request):
   
         if form.is_valid():
             form.save()
+            messages.success(request, 'Site sucessfully added')
             return redirect('index')
     else:
         form = SiteForm()
@@ -272,6 +283,7 @@ def addBuilding(request):
   
         if form.is_valid():
             form.save()
+            messages.success(request, 'Building sucessfully added')
             return redirect('/')
     else:
         form = BuildingForm()
@@ -284,7 +296,8 @@ def addSpace(request):
   
         if form.is_valid():
             form.save()
-            return redirect('success')
+            messages.success(request, 'Space sucessfully added')
+            return redirect('/')
     else:
         form = SpaceForm()
     return render(request, 'add/space_add.html', {'form' : form})

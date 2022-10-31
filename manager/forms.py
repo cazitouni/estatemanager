@@ -6,10 +6,9 @@ class SiteForm(forms.ModelForm):
   
     class Meta:
         model = Site
-        exclude = ('archived',)
         fields = '__all__'
         widgets = {
-            'geometrie': forms.OSMWidget(attrs={'default_lon' : 7.75290774889795, 'default_lat': 48.5734425944796}),
+            'geometrie': forms.OSMWidget(attrs={'default_lon' : float(config('DEFAULT_LONGITUDE')), 'default_lat': float(config('DEFAULT_LATITUDE'))}),
             'date_build': forms.DateInput(attrs={'type': 'date'}),
             'date_purchase': forms.DateInput(attrs={'type': 'date'})
         }
@@ -18,9 +17,8 @@ class BuildingForm(forms.ModelForm):
 
     class Meta:
         model = Building
-        exclude = ('archived',)
         widgets = {
-            'geometrie': forms.OSMWidget(attrs={'default_lon' : 7.75290774889795, 'default_lat': 48.5734425944796}),
+            'geometrie': forms.OSMWidget(attrs={'default_lon' : float(config('DEFAULT_LONGITUDE')), 'default_lat': float(config('DEFAULT_LATITUDE'))}),
             'date_build': forms.DateInput(attrs={'type': 'date'}),
             'date_purchase': forms.DateInput(attrs={'type': 'date'})
         }
@@ -36,6 +34,7 @@ class SearchBuildingForm(forms.Form):
         
     element = forms.ChoiceField(label='Element', choices=Element.choices, required=False)
     name = forms.CharField(label='Name', max_length=100, required=False)
+    address = forms.CharField(label='Address', max_length=100, required=False)
     type = forms.ChoiceField(label='Type', choices=Building.Types.choices, required=False)
     administrators = forms.ChoiceField(label='Administrators', choices=Building.Administrators.choices, required=False)
     owner = forms.ChoiceField(label='Owner', choices=Building.Owner.choices, required=False)
@@ -47,10 +46,9 @@ class SearchBuildingForm(forms.Form):
 class SpaceForm(forms.ModelForm):
     class Meta:
         model = Space
-        exclude = ('archived',)
         fields = '__all__'
         widgets = {
-            'geometrie': forms.OSMWidget(attrs={'default_lon' : 7.75290774889795, 'default_lat': 48.5734425944796}),
+            'geometrie': forms.OSMWidget(attrs={'default_lon' : float(config('DEFAULT_LONGITUDE')), 'default_lat': float(config('DEFAULT_LATITUDE'))}),
             'date_build': forms.DateInput(attrs={'type': 'date'}),
             'date_purchase': forms.DateInput(attrs={'type': 'date'})
         }
