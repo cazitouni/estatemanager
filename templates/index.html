@@ -13,6 +13,9 @@ Index
 </style>
 
 <div class="d-flex flex-row justify-content-fill">
+
+
+
   
   <div class="shadow-4"  id="searchDiv" style="width: 20%;height:calc(100vh - 76.6px);">
     
@@ -33,6 +36,16 @@ Index
 
   <div class="flex-fill" style="height:calc(100vh - 76.6px);">
     <div id="pgDiv" class="d-flex flex-column flex-fill" style="height: 90%;padding:1%">
+      
+      {% if messages %}
+      {% for message in messages %}
+      <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %} alert-dismissible fade show" role="alert" style="position:absolute;right:10px;left:calc(20% + 10px)">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+      {% endfor %}
+      {% endif %}
+
       {% if get_request != True %}
       {% for Building in Buildings %}
         <div class="d-flex flex-row" style="height: 20%;">

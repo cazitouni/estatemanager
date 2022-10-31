@@ -85,8 +85,8 @@
 </div>
 <script>
     var map = L.map('map').setView("{{geometrie.centroid.coords}}".replace(/\(|\)/g, '').split(',').reverse(), 16);
-    L.tileLayer('https://wgs-users.s3.amazonaws.com/cus/fonds/ems_gris/{z}/{x}/{y}.png', {
-    maxZoom: 21,
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(map);
     L.geoJSON(JSON.parse("{{ geometrie.geojson | escapejs}}")).addTo(map);

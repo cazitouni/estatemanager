@@ -1,10 +1,13 @@
 import io
 import json
 from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required, permission_required
 from django.http import HttpResponse, Http404, FileResponse, JsonResponse
 from django_user_agents.utils import get_user_agent
 from django.core.paginator import Paginator
+from django.template import Library
+from django.urls import reverse
 from reportlab.pdfgen import canvas
 from .forms import *
 from itertools import chain
@@ -24,7 +27,7 @@ def index(request):
     owner = None
     build_after = None
     archived = None
-    paginatore = None
+    
     buildings = []
     paginator = Paginator(buildings, 5)
     form = SearchBuildingForm(request.POST)
@@ -61,9 +64,9 @@ def index(request):
             sites = sites.filter(owner__icontains = owner)
             spaces = spaces.filter(owner__icontains = owner)
         if build_after != '':
-            buildings = buildings.filter(date_build__gt=build_after)
-            sites = sites.filter(date_build__gt = date_build)
-            spaces = spaces.filter(date_build__gt = date_build)
+            buildings = buildings.filter(date_build__gt= build_after)
+            sites = sites.filter(date_build__gt = build_after)
+            spaces = spaces.filter(date_build__gt = build_after)
         if archived != None:
             buildings = buildings.filter(archived=True)
             sites = sites.filter(archived=True)
@@ -112,7 +115,6 @@ def report(request, buildingId):
     p.save()
     buffer.seek(0)
     return FileResponse(buffer, as_attachment=True, filename='hello.pdf')
-
 
 def sheetBuilding(request, buildingId):
 
@@ -175,19 +177,81 @@ def sheetSpace(request, spaceId):
         }
         
         return render(request, "sheet/space_sheet.html", context)
+
 @login_required
-def editBuilding(request, buildingId):
-    Buildinginstance= Building.objects.get(id=buildingId)
+@permission_required('manager.change_site')
+def editSite(request, siteId):
+    
+    siteInstance = Site.objects.get(id=siteId)
+    
     if request.method == 'POST':
     
-        form = BuildingForm(request.POST, request.FILES, instance = Buildinginstance)
+        form = SiteForm(request.POST, request.FILES, instance = siteInstance)
   
         if form.is_valid():
             form.save()
+            messages.success(request, 'Site sucessfully modified')
             return redirect('index')
     else:
-        form = BuildingForm(instance = Buildinginstance)
+        form = SiteForm(instance = siteInstance)
+    return render(request, 'edit/site_edit.html', {'form' : form})
+
+@login_required
+@permission_required('manager.change_building')
+def editBuilding(request, buildingId):
+    
+    buildingInstance= Building.objects.get(id=buildingId)
+    
+    if request.method == 'POST':
+    
+        form = BuildingForm(request.POST, request.FILES, instance = buildingInstance)
+  
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Building sucessfully modified')
+            return redirect('index')
+    else:
+        form = BuildingForm(instance = buildingInstance)
     return render(request, 'edit/building_edit.html', {'form' : form})
+
+@login_required
+@permission_required('manager.change_space')
+def editSpace(request, spaceId):
+    
+    spaceInstance = Space.objects.get(id=spaceId)
+    
+    if request.method == 'POST':
+    
+        form = SpaceForm(request.POST, request.FILES, instance = spaceInstance)
+  
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Space sucessfully modified')
+            return redirect('index')
+    else:
+        form = SpaceForm(instance = spaceInstance)
+    return render(request, 'edit/space_edit.html', {'form' : form})
+
+@login_required
+@permission_required('manager.delete_site')
+def deleteSite(request, siteId):  
+   Site.objects.filter(id=siteId).delete()
+   messages.success(request, 'Site sucessfully removed')
+   return redirect('/')
+
+@login_required
+@permission_required('manager.delete_building')
+def deleteBuilding(request, buildingId):
+   Building.objects.filter(id=buildingId).delete()
+   messages.success(request, 'Building sucessfully removed')
+   return redirect('/')
+
+@login_required
+@permission_required('manager.delete_space')
+def deleteSpace(request, spaceId):
+   Building.objects.filter(id=spaceId).delete()
+   messages.success(request, 'Space sucessfully removed')
+   return redirect('/')
 
 @login_required
 def addSite(request):

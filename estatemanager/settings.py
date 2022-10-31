@@ -138,6 +138,8 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
+
 LOGIN_REDIRECT_URL = '/'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EXPLORER_CONNECTIONS = { 'Default': 'default' }

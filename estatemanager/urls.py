@@ -33,7 +33,12 @@ urlpatterns = [
     path("site/<int:siteId>", views.sheetSite, name="sheetSite"),
     path("building/<int:buildingId>", views.sheetBuilding, name="sheetBuilding"),
     path("space/<int:spaceId>", views.sheetSpace, name="sheetSpace"),
-    path("edit/<int:buildingId>", views.editBuilding, name="editBuilding"),
+    path("site/edit/<int:siteId>", views.editSite, name="editSite"),
+    path("building/edit/<int:buildingId>", views.editBuilding, name="editBuilding"),
+    path("space/edit/<int:spaceId>", views.editSpace, name="editSpace"),
+    path("site/delete/<int:siteId>", views.deleteSite, name="deleteSite"),
+    path("building/delete/<int:buildingId>", views.deleteBuilding, name="deleteBuilding"),
+    path("space/delete/<int:spaceId>", views.deleteSpace, name="deleteSpace"),
     path('report/<int:buildingId>', views.report, name = 'report'),
 ]
 
