@@ -131,18 +131,20 @@ def sheetBuilding(request, buildingId):
     if request.method == "GET":
 
         try:
-            Buildinginstance= Building.objects.get(id=buildingId)
+            buildingInstance= Building.objects.get(id=buildingId)
+            form = BuildingForm(instance = buildingInstance)
             
         except Building.DoesNotExist:
             raise Http404("This Building does not exist")
 
-        if Buildinginstance.geometrie != None : 
-            Buildinginstance.geometrie.transform(4326)
+        if buildingInstance.geometrie != None : 
+            buildingInstance.geometrie.transform(4326)
         
         context ={
             "Building" : Building.objects.get(id=buildingId),
-            "geometrie" : Buildinginstance.geometrie,
-            "Spaces" : Space.objects.filter(building = buildingId)
+            "geometrie" : buildingInstance.geometrie,
+            "Spaces" : Space.objects.filter(building = buildingId),
+            "form" : form
         }
         
         return render(request, "sheet/building_sheet.html", context)
@@ -215,11 +217,11 @@ def editBuilding(request, buildingId):
     if request.method == 'POST':
     
         form = BuildingForm(request.POST, request.FILES, instance = buildingInstance)
-  
+
         if form.is_valid():
             form.save()
             messages.success(request, 'Building sucessfully modified')
-            return redirect('index')
+            return redirect('sheetBuilding', buildingId)
     else:
         form = BuildingForm(instance = buildingInstance)
     return render(request, 'edit/building_edit.html', {'form' : form})

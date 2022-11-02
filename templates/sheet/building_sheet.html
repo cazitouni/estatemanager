@@ -6,6 +6,15 @@
 {% endblock %}
 {% block content %}
 <div class="h-100 d-flex flex-row justify-content-between align-items-start" style="margin: 10px;">
+  {% if messages %}
+  {% for message in messages %}
+  <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %} alert-dismissible fade show" role="alert" style="position:absolute;width:30%;z-index:2;right:10px">
+    {{ message }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+  {% endfor %}
+  {% endif %}
+
     <div class="flex-fill" >
       <div class=" card card-body" style="margin:10px;" >
     <h1 class="container-fluid text-center">{{Building.name}}</h1>
@@ -17,11 +26,15 @@
           <div class="collapse show" id="informations" style="margin-top: 20px;">
             <div>
               <div>
-                  <h6 onclick="makeInput(this)" class="toggle-edit">Street : {{Building.street | default_if_none:"Unspecified"}}</h6>
+                  <h6 class="toggle-edit">Street : {{Building.street | default_if_none:"Unspecified"}}</h6>
+                  <h6 class="toggle-edit">Type : {{Building.types | default_if_none:"Unspecified"}}</h6>
+                  <h6 class="toggle-edit">Owner: {{Building.owner | default_if_none:"Unspecified"}}</h6>
                   <h6 class="toggle-edit">Administrator : {{Building.administrators | default_if_none:"Unspecified"}}</h6>
                   <h6 class="toggle-edit">Building date : {{Building.date_build | default_if_none:"Unspecified"}}</h6> 
                   <h6 class="toggle-edit">Author : {{Building.author | default_if_none:"Unspecified"}}</h6>
-                  <h6 class="toggle-edit">Site : {{Building.site | default_if_none:"Unspecified"}}</h6>
+                  <h6 class="toggle-edit">Archived : {{Building.archived | default_if_none:"Unspecified"}}</h6>
+                  
+                  
               </div>
             </div>
           </div>
@@ -50,20 +63,16 @@
           </a>
           <div class="collapse " id="spaces" style="margin-top: 20px;">
             <div>
-              <div>
-                <h6>External work surface: {{Building.surface_external_work | default_if_none:"/"}} m²</h6>
-                <h6>Internal work surface : {{Building.surface_internal_work | default_if_none:"/"}} m²</h6> 
-                <h6>Office surface : {{Building.surface_office | default_if_none:"/"}} m²</h6>
-                <h6>Rent surface : {{Building.surface_rent | default_if_none:"/"}} m²</h6>
-                <h6>Floor surface : {{Building.surface_floor | default_if_none:"/"}} m²</h6>
-                <h6>Under roof surface : {{Building.surface_under_roof | default_if_none:"/"}} m²</h6>
+              <div class="d-flex flex-column justify-content-center align-items-center flex-fill">
+                {% for Space in Spaces %}
+                <h6>{{Space.name}}</h6>
+                {% endfor %}
               </div>
             </div>
           </div>
         </div>
 
     </div>
-
     
     <div style="width:30%;word-wrap: break-word ">
       <div  class="card card-body" style="margin:10px;"> 
@@ -78,11 +87,38 @@
     </div>
     <div  class="card card-body" style="margin:10px;"> 
       <h3>Related Site : </h3>
-     <div class="d-flex flex-column justify-content-center flex-fill align-items-center" style="margin-top:10px;"> <a href="{% url 'sheetSite' Building.site.id %}"><h4>{{Building.site}}</h4></a> </div>
+     <div class="d-flex flex-column justify-content-center flex-fill align-items-center" style="margin-top:10px;"> <a href="{% url 'sheetSite' Building.site.id %}"><h4>{{Building.site | default_if_none:"Unspecified"}}</h4></a> </div>
     </div>
   </div>
 
 </div>
+
+<!--
+<div class="modal fade" id="editForm" tabindex="1" aria-labelledby="editFormLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editFormLabel">Modal title</h5>
+        <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div i class="d-flex flex-row flex-fill">
+          <form method = "post" enctype="multipart/form-data" style="width:100%">
+              {% csrf_token %}
+              {{ form| crispy}}
+              <button type="submit" style="margin-top: 10px;" class="btn btn btn-primary">Submit</button>
+          </form>
+
+      </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+-->
 <script>
     var map = L.map('map').setView("{{geometrie.centroid.coords}}".replace(/\(|\)/g, '').split(',').reverse(), 16);
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -90,6 +126,13 @@
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(map);
     L.geoJSON(JSON.parse("{{ geometrie.geojson | escapejs}}")).addTo(map);
+
+/*
+
+  document.addEventListener("shown.bs.modal", function() {
+    
+  });
+  */
 </script>
 {% endblock %}
 

@@ -1,16 +1,92 @@
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
+{% load static %}
 {% block title %}
 Edit
 {% endblock %}
 {% block content %}
-<div class="d-flex flex-row flex-wrap justify-content-center" style="margin-top: 20px;margin-bottom:20px;">
 
-    <form method = "post" enctype="multipart/form-data">
+<form  id="editForm" method = "post" enctype="multipart/form-data">
+{% csrf_token %}
+<div class="h-100 d-flex flex-row justify-content-between align-items-start" style="margin: 10px;">
+    <div class="flex-fill" >
+      <div class=" card card-body" style="margin:10px;" >
+    <h1 class="container-fluid text-center">{{form.name | as_crispy_field}}</h1>
+  </div>
+  <div class=" card card-body" style="margin:10px;" >
+        <a class="with-chevron" type="button" data-bs-toggle="collapse" href="#informations"  aria-expanded="true" aria-controls="collapseOne">
+          <h3 class="d-flex justify-content-between">Informations<span class="rotate bi bi-caret-right-fill"></span></h3>
+        </a>
+          <div class="collapse show" id="informations" style="margin-top: 20px;">
+            <div>
+              <div>
+                  <h6 class="toggle-edit">{{form.street | as_crispy_field}}</h6>
+                  <h6 class="toggle-edit">{{form.types | as_crispy_field}}</h6>
+                  <h6 class="toggle-edit">{{form.owner | as_crispy_field}}</h6>
+                  <h6 class="toggle-edit">{{form.administrators | as_crispy_field}}</h6>
+                  <h6 class="toggle-edit">{{form.date_build | as_crispy_field}}</h6> 
+                  <h6 class="toggle-edit">{{form.author| as_crispy_field}}</h6>
+                  <h6 class="toggle-edit">{{form.archived| as_crispy_field}}</h6>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class=" card card-body" style="margin:10px;" >
+          <a class="with-chevron" type="button" data-bs-toggle="collapse" href="#surfaces"  aria-expanded="false" aria-controls="collapseOne">
+            <h3 class="d-flex justify-content-between">Surfaces<span class="rotate bi bi-caret-right-fill"></span></h3>
+          </a>
+          <div class="collapse " id="surfaces" style="margin-top: 20px;">
+            <div>
+              <div>
+                <h6>{{form.surface_external_work | as_crispy_field}}</h6>
+                <h6>{{form.surface_internal_work | as_crispy_field}}</h6> 
+                <h6>{{form.surface_office | as_crispy_field}}</h6>
+                <h6>{{form.surface_rent | as_crispy_field}}</h6>
+                <h6>{{form.surface_floor | as_crispy_field}}</h6>
+                <h6>{{form.surface_under_roof | as_crispy_field}}</h6>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class=" card card-body" style="margin:10px;" >
+          <a class="with-chevron" type="button" data-bs-toggle="collapse" href="#spaces"  aria-expanded="false" aria-controls="collapseOne">
+            <h3 class="d-flex justify-content-between">Related spaces<span class="rotate bi bi-caret-right-fill"></span></h3>
+          </a>
+          <div class="collapse " id="spaces" style="margin-top: 20px;">
+            <div>
+              <div class="d-flex flex-column justify-content-center align-items-center flex-fill">
+                {% for Space in Spaces %}
+                <h6>{{Space.name}}</h6>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        </div>
+
+    </div>
+
+    
+    <div style="width:30%;word-wrap: break-word ">
+      <div  class="card card-body" style="margin:10px;"> 
+        <h3>Localisation : </h3>
+        <div style="margin-bottom: 20px;">{{form.geometrie| as_crispy_field}}</div>
+        <h3>Image : </h3>
+        {{form.image | as_crispy_field}}
+    </div>
+    <div  class="card card-body" style="margin:10px;"> 
+      <h3>Related Site : </h3>
+        {{form.site | as_crispy_field}}
+    </div>
+  </div>
+
+</div>
+</form>
+{% endblock %}
+<div class="d-flex flex-column flex-fill" style="width:100%; padding:2%">
+    
         {% csrf_token %}
         {{ form| crispy}}
         <button type="submit" style="margin-top: 10px;" class="btn btn btn-primary">Submit</button>
     </form>
-
 </div>
-{% endblock %}

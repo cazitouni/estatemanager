@@ -50,7 +50,11 @@ Index
       {% for Building in Buildings %}
         <div class="d-flex flex-row" style="height: 20%;">
           <div id="indexCards" class="flex-row d-flex card card-body" style="height: 95%;width: 100%;padding:1%;">
+            {% if Building.image.url != None %}
+            <img src="{{ Building.image.url }}" class="card-img-top" style="height:100%;object-fit:cover;width: 20%;" alt="...">
+            {% else %}
             <img src="{% static 'images/index_template.png' %}" class="card-img-top" style="height:100%;object-fit:cover;width: 20%;" alt="...">
+            {% endif %}
            <div class="d-flex flex-column"style="margin-left:2%;width:50%">
               <h1>{{Building.name}}</h1>
               {% if Building.site %}
@@ -137,4 +141,14 @@ formData.append('owner', document.querySelector("#id_owner").value);
 formData.append('build_after', document.querySelector("#id_build_after").value);
 if (document.querySelector("#id_archived").checked){formData.append('archived', document.querySelector("#id_archived").value);}
 </script>
+
+<style>
+#div_id_archived
+{  
+    margin-top : 10%;
+    border-top-style: solid;
+    border-color: #9fa6b263;
+    padding-top: 10%;
+}
+</style>
 {% endblock %}

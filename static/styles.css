@@ -78,17 +78,18 @@ visibility: hidden;
 position: fixed;
 left: -22%;
 }
-
-#div_id_archived
-{  
-    margin-top : 10%;
-    border-top-style: solid;
-    border-color: #9fa6b263;
-    padding-top: 10%;
-}
 .indexPlaceholder
 {
     font-size: xx-large;
     color:#9fa6b263;
     font-weight: bolder;
+}
+#id_geometrie_div_map
+{
+    width: 100% !important;
+    display: block !important;
+}
+
+.modal {
+    display:hidden !important;
 }

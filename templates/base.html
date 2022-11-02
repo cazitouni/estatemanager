@@ -14,6 +14,7 @@
         <link href="{% static 'styles.css' %}" rel="stylesheet">
         <script src="{% static 'js/search.js' %}"></script>
         <script src="{% static 'js/paginator.js' %}"></script>
+        <script src="{% static 'js/edit.js' %}"></script>
         <!-- JavaScript Bundle with Popper -->
         <link rel="stylesheet" href="https://openlayers.org/en/v4.6.5/css/ol.css" type="text/css">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
@@ -67,14 +68,24 @@
                 {% if perms.manager.delete_building %}
                 <a class="btn btn-danger" href="{% url 'deleteBuilding' Building.id %}" onclick="return confirm('Are you sure you want to delete this building?')">Delete</a>
                 {% endif %}
-                {% elif 'site' in request.path and 'edit' not in request.path and 'add' not in request.path %}
+                {% endif %}
+
+                {% if 'building' in request.path and 'edit' in request.path and 'add' not in request.path  %}
+                {% if perms.manager.change_building %}
+                <button class="btn btn-success" style="margin-right:10px;" type="submit" form="editForm" value="Update" >Submit</button>
+                {% endif %}
+                {% endif %}
+                
+                {% if 'site' in request.path and 'edit' not in request.path and 'add' not in request.path %}
                 {% if perms.manager.change_site %}
                 <button class="btn btn-success" style="margin-right:10px;" onclick="location.href='{% url 'editSite' Site.id %}'">Edit</button>
                 {% endif %}
                 {% if perms.manager.delete_site %}
                 <a class="btn btn-danger" href="{% url 'deleteSite' Site.id %}" onclick="return confirm('Are you sure you want to delete this site?')">Delete</a>
                 {% endif %}
-                {% elif 'space' in request.path and 'edit' not in request.path and 'add' not in request.path %}
+                {% endif %}
+
+                {% if 'space' in request.path and 'edit' not in request.path and 'add' not in request.path %}
                 {% if perms.manager.change_space %}
                 <button class="btn btn-success" style="margin-right:10px;" onclick="location.href='{% url 'editSpace' Space.id %}'">Edit</button>
                 {% endif %}

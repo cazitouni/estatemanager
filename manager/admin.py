@@ -8,10 +8,11 @@ class ProfileAdmin(admin.ModelAdmin):
 @admin.register(Site)
 class SiteAdmin(admin.ModelAdmin):
     model = Site
-
+    search_fields = ['name']
 @admin.register(Building)
 class BuildingAdmin(admin.ModelAdmin):
     model = Building
+    autocomplete_fields = ['site']
 
 @admin.register(Space)
 class SpaceAdmin(admin.ModelAdmin):

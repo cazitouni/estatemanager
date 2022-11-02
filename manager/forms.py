@@ -18,12 +18,12 @@ class BuildingForm(forms.ModelForm):
     class Meta:
         model = Building
         widgets = {
-            'geometrie': forms.OSMWidget(attrs={'default_lon' : float(config('DEFAULT_LONGITUDE')), 'default_lat': float(config('DEFAULT_LATITUDE'))}),
+            'geometrie': forms.OSMWidget(attrs={'default_lon' : float(config('DEFAULT_LONGITUDE')), 'default_lat': float(config('DEFAULT_LATITUDE')),'map_width': '100%'}),
             'date_build': forms.DateInput(attrs={'type': 'date'}),
             'date_purchase': forms.DateInput(attrs={'type': 'date'})
         }
         fields = '__all__'
-
+        
 class SearchBuildingForm(forms.Form):
     
     class Element(models.TextChoices):
